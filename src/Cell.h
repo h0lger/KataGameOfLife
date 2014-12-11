@@ -6,8 +6,12 @@ public:
 	Cell();
 	~Cell();
 
+	void SetDead();
+	void SetAlive();
+	bool IsAlive();
+
 private:
-	short isAlive;
+	bool isAlive;	
 	
 };
 #endif
