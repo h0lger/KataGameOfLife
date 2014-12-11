@@ -1,6 +1,14 @@
 #include <iostream>
+#include "Grid.h"
+#include "UnitTests.h"
+using namespace std;
 
 int main()
 {
-	std::cout << "Let's begin";
+	char *dummy = new char[1];
+	UnitTest_1();
+	cin >> dummy;
+
+	return 0;
 }
+

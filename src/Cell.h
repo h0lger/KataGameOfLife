@@ -11,7 +11,7 @@ public:
 	bool IsAlive();
 
 private:
-	bool isAlive;	
+	bool _isAlive;
 	
 };
 #endif
