@@ -3,13 +3,15 @@
 using namespace std;
 
 #ifndef GRID_H
-#define DEFAULT_GRID_SIZE 10
+#define DEFAULT_GRID_SIZE 20
 
 class Grid
 {
 public:
 	Grid();
-	~Grid();	
+	~Grid();
+
+	void NextGeneration(); //Perform next gen
 
 	friend ostream &operator<<(ostream &output, const Grid &G);
 
@@ -18,6 +20,7 @@ public:
 private:
 	Cell **_cellArrPtr;
 	unsigned short _arrSize;
+	
 };
 
 

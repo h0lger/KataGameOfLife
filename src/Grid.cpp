@@ -5,7 +5,7 @@ Grid::Grid()
 	_arrSize = DEFAULT_GRID_SIZE;
 	InitGrid();	
 }
-Grid::~Grid()
+Grid::~Grid(void)
 {
 	delete _cellArrPtr;
 }
@@ -20,7 +20,7 @@ void Grid::InitGrid()
 	}
 }
 
-ostream& operator<<(ostream& output, const Grid& G)
+ostream& operator<<(ostream &output, const Grid &G)
 {
 	for (size_t r = 0; r < G._arrSize; r++)
 	{
@@ -35,4 +35,9 @@ ostream& operator<<(ostream& output, const Grid& G)
 		output << "\n"; //För varje ny rad
 	}
 	return output;
+}
+
+void Grid::NextGeneration()
+{
+	_cellArrPtr[1][1].SetAlive();
 }

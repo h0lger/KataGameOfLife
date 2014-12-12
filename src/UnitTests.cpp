@@ -1,9 +1,14 @@
 #include "UnitTests.h"
 #include "Grid.h"
 
-bool UnitTest_1()
+bool UnitTest_Print()
 {
 	Grid *gPtr = new Grid();
-	cout << (Grid)*gPtr;
+	cout << *gPtr;
+	_sleep(1000);
+	gPtr->NextGeneration();
+	system("CLS");
+	cout << *gPtr;
+
 	return true;
 }
