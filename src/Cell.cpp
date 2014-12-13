@@ -3,7 +3,7 @@
 Cell::Cell()
 {
 	//Standard är att cellen är död
-	_isAlive = false;
+	//_isAlive = false;
 }
 Cell::Cell(const Cell &c)
 {

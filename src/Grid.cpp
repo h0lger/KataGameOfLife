@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include <vector>
 
 Grid::Grid()
 {
@@ -40,12 +41,15 @@ ostream& operator<<(ostream &output, const Grid &G)
 void Grid::NextGeneration()
 {	
 	Cell **clone = CloneArr();
-	for (size_t r = 0; r < _arrSize; r++) //rows
+	Cell *ne;
+	unsigned short *countPtr = (unsigned short *)0;
+
+	for (unsigned short r = 0; r < _arrSize; r++) //rows
 	{
-		for (size_t c = 0; c < _arrSize; c++) //cells
+		for (unsigned short c = 0; c < _arrSize; c++) //cells
 		{
 			//Rule 1 (underpopulation)
-			//TODO
+			ne = GetNeighbours(r, c, clone, countPtr);
 		}
 	}
 
@@ -69,4 +73,29 @@ Cell ** Grid::CloneArr()
 	}
 
 	return tmpCPtr;
+}
+
+Cell *Grid::GetNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr, unsigned short *countPtr)
+{
+	//Every cell has at maximum 8 neighbours...
+	Cell tmpCellArrPtr[N_ARR_SIZE];	
+
+	//Figure out row above
+	if (r == 0)
+	{
+		AddNeighbour(r, c, countPtr, tmpCellArrPtr, cellArrPtr);
+	}	
+
+	return tmpCellArrPtr;
+}
+
+void Grid::AddNeighbour(unsigned short r, unsigned short c, unsigned short *countPtr, Cell *tmpCellArrPtr, Cell **cellArrPtr)
+{
+	unsigned short i = (unsigned short)countPtr;
+	//left cell
+	if (c > 0)
+		tmpCellArrPtr[++i] = cellArrPtr[r][c - 1];
+	//right cell
+	if (c < (DEFAULT_GRID_SIZE - 1))
+		tmpCellArrPtr[++i] = cellArrPtr[r][c + 1];
 }

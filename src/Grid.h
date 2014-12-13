@@ -22,7 +22,8 @@ private:
 	Cell **_cellArrPtr;
 	unsigned short _arrSize;
 	Cell ** CloneArr(); //Clone cellArrPtr
-	Cell * GetNeighbours();
+	Cell *GetNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr, unsigned short *countPtr);
+	void AddNeighbour(unsigned short r, unsigned short c, unsigned short *countPtr, Cell *tmpCellArrPtr, Cell **cellArrPtr);
 	
 };
 
