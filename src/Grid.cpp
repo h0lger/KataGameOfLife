@@ -38,19 +38,31 @@ ostream& operator<<(ostream &output, const Grid &G)
 	return output;
 }
 
+//Expose pointer to cell array
+Cell ** Grid::GetCells()
+{
+	return _cellArrPtr;
+}
+
+//Simulate next generataion of cells
 void Grid::NextGeneration()
 {	
-	Cell **clone = CloneArr();
-	Cell *ne;
-	unsigned short countPtr = 0;
+	//Clone existing state before we manipulate
+	Cell **clone = CloneArr();	
+	unsigned short nAlive = 0; //Alive neigbours
 
+	//Loop every cell
 	for (unsigned short r = 0; r < _arrSize; r++) //rows
 	{
 		for (unsigned short c = 0; c < _arrSize; c++) //cells
 		{
-			//Rule 1 (underpopulation)
-			ne = GetNeighbours(r, c, clone, &countPtr);
-			countPtr = 0; //reset			
+			nAlive = CountLiveNeighbours(r, c, clone);
+
+			//Rule 1 (underpopulation)			
+			//Rule 2 (overcrowdning)
+			if (nAlive < 2 || nAlive > 3)
+				_cellArrPtr[r][c].SetDead();			
+			
 		}
 	}
 
@@ -108,4 +120,22 @@ void Grid::AddNeighbour(unsigned short r, unsigned short c, bool skipCEqual, uns
 		tmpCellArrPtr[++*countPtr] = cellArrPtr[r][c + 1];
 
 	
+}
+
+unsigned short Grid::CountLiveNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr)
+{
+	Cell *ne;
+	unsigned short nCells = 0; //Number of neighbours
+	unsigned short count = 0; //Alive neighbours
+
+	//Fetch all neighbours, could be at most 8
+	ne = GetNeighbours(r, c, cellArrPtr, &nCells);
+
+	for (size_t i = 0; i < nCells; i++)
+	{
+		if (ne[i].IsAlive())
+			count++;
+	}
+
+	return count;
 }

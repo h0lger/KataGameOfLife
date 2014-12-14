@@ -13,18 +13,18 @@ public:
 	~Grid();
 	
 	void NextGeneration(); //Perform next gen
-
 	friend ostream& operator<<(ostream& output, const Grid& G);
-
 	void InitGrid();
+	Cell ** GetCells();
 
 private:
 	Cell **_cellArrPtr;
 	unsigned short _arrSize;
-	Cell ** CloneArr(); //Clone cellArrPtr
+	//Clone cell array
+	Cell ** CloneArr();
 	Cell *GetNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr, unsigned short *countPtr);
 	void AddNeighbour(unsigned short r, unsigned short c, bool skipCEqual, unsigned short *countPtr, Cell *tmpCellArrPtr, Cell **cellArrPtr);
-	
+	unsigned short CountLiveNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr);
 };
 
 

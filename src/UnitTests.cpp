@@ -1,5 +1,6 @@
 #include "UnitTests.h"
 #include "Grid.h"
+#include <assert.h>
 
 bool UnitTest_Print()
 {
