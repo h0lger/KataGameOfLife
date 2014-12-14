@@ -2,8 +2,8 @@
 
 Cell::Cell()
 {
-	//Standard är att cellen är död
-	//_isAlive = false;
+	//The cell is dead by default
+	_isAlive = false;
 }
 Cell::Cell(const Cell &c)
 {
@@ -12,7 +12,7 @@ Cell::Cell(const Cell &c)
 
 Cell::~Cell()
 {
-	//Inget än
+	//Nothing
 }
 
 //Get / set

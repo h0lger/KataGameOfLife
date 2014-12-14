@@ -42,14 +42,15 @@ void Grid::NextGeneration()
 {	
 	Cell **clone = CloneArr();
 	Cell *ne;
-	unsigned short *countPtr = (unsigned short *)0;
+	unsigned short countPtr = 0;
 
 	for (unsigned short r = 0; r < _arrSize; r++) //rows
 	{
 		for (unsigned short c = 0; c < _arrSize; c++) //cells
 		{
 			//Rule 1 (underpopulation)
-			ne = GetNeighbours(r, c, clone, countPtr);
+			ne = GetNeighbours(r, c, clone, &countPtr);
+			countPtr = 0; //reset			
 		}
 	}
 
@@ -78,24 +79,33 @@ Cell ** Grid::CloneArr()
 Cell *Grid::GetNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr, unsigned short *countPtr)
 {
 	//Every cell has at maximum 8 neighbours...
-	Cell tmpCellArrPtr[N_ARR_SIZE];	
+	Cell *tmpCellArrPtr = new Cell[N_ARR_SIZE];
 
-	//Figure out row above
-	if (r == 0)
+	//Figure out neighbours in row above
+	if (r > 0)
 	{
-		AddNeighbour(r, c, countPtr, tmpCellArrPtr, cellArrPtr);
-	}	
+		AddNeighbour(r - 1, c, false, countPtr, tmpCellArrPtr, cellArrPtr);
+	}
+	//Figure out neighbours on the same row
+	AddNeighbour(r, c, true, countPtr, tmpCellArrPtr, cellArrPtr);
+	//Figure out neighbours in row below
+	if (r < _arrSize - 1)
+		AddNeighbour(r + 1, c, false, countPtr, tmpCellArrPtr, cellArrPtr);
 
 	return tmpCellArrPtr;
 }
 
-void Grid::AddNeighbour(unsigned short r, unsigned short c, unsigned short *countPtr, Cell *tmpCellArrPtr, Cell **cellArrPtr)
-{
-	unsigned short i = (unsigned short)countPtr;
+void Grid::AddNeighbour(unsigned short r, unsigned short c, bool skipCEqual, unsigned short *countPtr, Cell *tmpCellArrPtr, Cell **cellArrPtr)
+{	
 	//left cell
 	if (c > 0)
-		tmpCellArrPtr[++i] = cellArrPtr[r][c - 1];
+		tmpCellArrPtr[++*countPtr] = cellArrPtr[r][c - 1];
+	//To avoid current cell value
+	if (!skipCEqual)
+		tmpCellArrPtr[++*countPtr] = cellArrPtr[r][c];
 	//right cell
-	if (c < (DEFAULT_GRID_SIZE - 1))
-		tmpCellArrPtr[++i] = cellArrPtr[r][c + 1];
+	if (c < (_arrSize - 1))
+		tmpCellArrPtr[++*countPtr] = cellArrPtr[r][c + 1];
+
+	
 }
