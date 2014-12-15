@@ -50,19 +50,31 @@ void Grid::NextGeneration()
 	//Clone existing state before we manipulate
 	Cell **clone = CloneArr();	
 	unsigned short nAlive = 0; //Alive neigbours
+	unsigned short nDead = 0; //Dead neighbours
 
 	//Loop every cell
 	for (unsigned short r = 0; r < _arrSize; r++) //rows
 	{
 		for (unsigned short c = 0; c < _arrSize; c++) //cells
 		{
-			nAlive = CountLiveNeighbours(r, c, clone);
+			nAlive = CountNeighbours(CellState::Alive, r, c, clone);
 
-			//Rule 1 (underpopulation)			
-			//Rule 2 (overcrowdning)
-			if (nAlive < 2 || nAlive > 3)
-				_cellArrPtr[r][c].SetDead();			
-			
+			//For all living cells
+			if (_cellArrPtr[r][c].IsAlive())
+			{				
+				//Rule 1 (underpopulation)			
+				//Rule 2 (overcrowdning)
+				if (nAlive < 2 || nAlive > 3)
+					_cellArrPtr[r][c].SetDead();
+				//Rule 3 (2 or 3 live neighbours lives on)
+				// No logic needed...
+			}			
+			else //For all dead cells
+			{
+				//Rule 4 (3 live neighbours becomes alive)
+				if (nAlive == 3)
+					_cellArrPtr[r][c].SetAlive();
+			}			
 		}
 	}
 
@@ -122,7 +134,7 @@ void Grid::AddNeighbour(unsigned short r, unsigned short c, bool skipCEqual, uns
 	
 }
 
-unsigned short Grid::CountLiveNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr)
+unsigned short Grid::CountNeighbours(CellState cState, unsigned short r, unsigned short c, Cell **cellArrPtr)
 {
 	Cell *ne;
 	unsigned short nCells = 0; //Number of neighbours
@@ -133,7 +145,9 @@ unsigned short Grid::CountLiveNeighbours(unsigned short r, unsigned short c, Cel
 
 	for (size_t i = 0; i < nCells; i++)
 	{
-		if (ne[i].IsAlive())
+		if (cState == CellState::Alive && ne[i].IsAlive())
+			count++;
+		else if (cState == CellState::Dead && !ne[i].IsAlive())
 			count++;
 	}
 

@@ -1,8 +1,10 @@
+#ifndef GRID_H
+#define GRID_H
+
 #include "Cell.h"
 #include <iostream>
-using namespace std;
 
-#ifndef GRID_H
+using namespace std;
 #define DEFAULT_GRID_SIZE 20
 #define N_ARR_SIZE 8 //Max number of neighbours
 
@@ -24,10 +26,7 @@ private:
 	Cell ** CloneArr();
 	Cell *GetNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr, unsigned short *countPtr);
 	void AddNeighbour(unsigned short r, unsigned short c, bool skipCEqual, unsigned short *countPtr, Cell *tmpCellArrPtr, Cell **cellArrPtr);
-	unsigned short CountLiveNeighbours(unsigned short r, unsigned short c, Cell **cellArrPtr);
+	unsigned short CountNeighbours(CellState cState, unsigned short r, unsigned short c, Cell **cellArrPtr);
 };
-
-
-
 
 #endif

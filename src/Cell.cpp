@@ -3,11 +3,11 @@
 Cell::Cell()
 {
 	//The cell is dead by default
-	_isAlive = false;
+	_cellState = CellState::Dead;
 }
 Cell::Cell(const Cell &c)
 {
-	_isAlive = c._isAlive;
+	_cellState = c._cellState;
 }
 
 Cell::~Cell()
@@ -18,15 +18,15 @@ Cell::~Cell()
 //Get / set
 bool Cell::IsAlive()
 {
-	return _isAlive;
+	return _cellState == CellState::Alive;
 }
 
 void Cell::SetAlive()
 {
-	_isAlive = true;
+	_cellState = CellState::Alive;
 }
 
 void Cell::SetDead()
 {
-	_isAlive = false;
+	_cellState = CellState::Dead;
 }

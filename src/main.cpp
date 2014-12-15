@@ -7,7 +7,8 @@ int main()
 {
 	
 	char *dummy = new char[1];
-	UnitTest_Print();	
+	//UnitTest_Print();	
+	UnitTest_NextGen();
 	cin >> dummy;
 
 	return 0;

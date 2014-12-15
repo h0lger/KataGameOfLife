@@ -1,10 +1,17 @@
 #ifndef	CELL_H
+#define CELL_H
+
+enum CellState
+{
+	Dead = 0,
+	Alive = 1
+};
 
 class Cell
 {
 public:
 	Cell();
-	Cell(const Cell &); //Copy contructor
+	Cell(const Cell &); //Copy constructor
 	~Cell();
 
 	//const Cell &operator=(const Cell &);
@@ -13,7 +20,8 @@ public:
 	bool IsAlive();
 
 private:
-	bool _isAlive;
+	CellState _cellState;
 	
 };
+
 #endif
