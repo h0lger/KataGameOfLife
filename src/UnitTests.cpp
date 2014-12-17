@@ -30,8 +30,8 @@ Grid *GetStartGrid()
 {
 	Grid *gPtr = new Grid();
 	//TODO: Make random
-	gPtr->GetCells()[4][5].SetAlive();
-	gPtr->GetCells()[5][4].SetAlive();
-	gPtr->GetCells()[5][5].SetAlive();
+	gPtr->GetCells()[1][4].SetAlive();
+	gPtr->GetCells()[2][3].SetAlive();
+	gPtr->GetCells()[2][4].SetAlive();
 	return gPtr;
 }

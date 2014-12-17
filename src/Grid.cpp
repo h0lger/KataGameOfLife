@@ -123,13 +123,13 @@ void Grid::AddNeighbour(unsigned short r, unsigned short c, bool skipCEqual, uns
 {	
 	//left cell
 	if (c > 0)
-		tmpCellArrPtr[++*countPtr] = cellArrPtr[r][c - 1];
+		tmpCellArrPtr[(++*countPtr) - 1] = cellArrPtr[r][c - 1];
 	//To avoid current cell value
 	if (!skipCEqual)
-		tmpCellArrPtr[++*countPtr] = cellArrPtr[r][c];
+		tmpCellArrPtr[(++*countPtr) - 1] = cellArrPtr[r][c];
 	//right cell
 	if (c < (_arrSize - 1))
-		tmpCellArrPtr[++*countPtr] = cellArrPtr[r][c + 1];
+		tmpCellArrPtr[(++*countPtr) - 1] = cellArrPtr[r][c + 1];
 
 	
 }
@@ -138,7 +138,7 @@ unsigned short Grid::CountNeighbours(CellState cState, unsigned short r, unsigne
 {
 	Cell *ne;
 	unsigned short nCells = 0; //Number of neighbours
-	unsigned short count = 0; //Alive neighbours
+	unsigned short count = 0; // Number of neighbours (cell state)
 
 	//Fetch all neighbours, could be at most 8
 	ne = GetNeighbours(r, c, cellArrPtr, &nCells);
