@@ -65,7 +65,7 @@ void Grid::NextGeneration()
 				//Rule 1 (underpopulation)			
 				//Rule 2 (overcrowdning)
 				if (nAlive < 2 || nAlive > 3)
-					_cellArrPtr[r][c].SetDead();
+					_cellArrPtr[r][c].SetDead();				
 				//Rule 3 (2 or 3 live neighbours lives on)
 				// No logic needed...
 			}			

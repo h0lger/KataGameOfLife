@@ -5,6 +5,7 @@
 
 bool UnitTest_Print();
 bool UnitTest_NextGen();
-Grid *GetStartGrid();
+Grid *GetSimple();
+Grid *GetGlider();
 
 #endif
