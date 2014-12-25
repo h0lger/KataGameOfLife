@@ -4,13 +4,22 @@
 using namespace std;
 
 int main()
-{
-	
-	char *dummy = new char[1];
-	//UnitTest_Print();	
-	UnitTest_NextGen();
-	cin >> dummy;
+{	
+	char inpC = 'a';
+	char exitChar[1];
+	exitChar[0] = '0';
+
+	while (inpC != exitChar[0])
+	{
+		cout << "Hejsan";
+		cin >> inpC;
+	}
 
 	return 0;
+}
+
+void Menu()
+{
+	
 }
 
