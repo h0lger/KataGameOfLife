@@ -1,5 +1,6 @@
 #include "UnitTests.h"
 #include "Grid.h"
+#include "Utils.h"
 #include <assert.h>
 
 bool UnitTest_Print()
@@ -138,59 +139,4 @@ bool UnitTest_NextGen_Blinker()
 	delete gPtr;
 
 	return true;	
-}
-
-//Get glider start pos
-Grid *GetGlider()
-{
-	/*
-	 .*..
-	 ..*.
-	 ***.
-	 ....
-	*/
-	Grid *gPtr = new Grid();
-	
-	gPtr->GetCells()[0][1].SetAlive();
-	gPtr->GetCells()[1][2].SetAlive();
-	gPtr->GetCells()[2][0].SetAlive();
-	gPtr->GetCells()[2][1].SetAlive();
-	gPtr->GetCells()[2][2].SetAlive();
-	
-	return gPtr;
-}
-
-//Get blinker start pos
-Grid *GetBlinker()
-{
-	/*
-		.*..
-		.*..
-		.*..
-		....
-	*/
-
-	Grid *gPtr = new Grid();
-	gPtr->GetCells()[0][1].SetAlive();
-	gPtr->GetCells()[1][1].SetAlive();
-	gPtr->GetCells()[2][1].SetAlive();
-
-	return gPtr;
-}
-
-//Get simple cell start pos
-Grid *GetSimple()
-{
-	/*
-	.*..
-	..*.
-	***.
-	....
-	*/
-	Grid *gPtr = new Grid();	
-	gPtr->GetCells()[1][4].SetAlive();
-	gPtr->GetCells()[2][3].SetAlive();
-	gPtr->GetCells()[2][4].SetAlive();
-	
-	return gPtr;
 }

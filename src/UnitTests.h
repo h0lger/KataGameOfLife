@@ -6,8 +6,5 @@
 bool UnitTest_Print();
 bool UnitTest_NextGen_Glider();
 bool UnitTest_NextGen_Blinker();
-Grid *GetSimple();
-Grid *GetGlider();
-Grid *GetBlinker();
 
 #endif
