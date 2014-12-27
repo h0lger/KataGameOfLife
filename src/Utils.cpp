@@ -19,7 +19,7 @@ void IterateGens(Grid *gPtr, unsigned short n)
 	//Iterate for n generations
 	for (size_t i = 0; i < n; i++)
 	{
-		cout << "\033[2J\033[1;1H"; //clear screen
+		ClearTerminal();
 		cout << *gPtr;
 		cout << "\n[" << (i + 1) << " / " << n << " generation]";
 		usleep(ANIMATION_SPEED);
@@ -48,7 +48,7 @@ void Menu()
 		cout << "3. Glider\n";
 		cout << "x. Exit\n";
 		cin >> inpC;
-		cout << "\033[2J\033[1;1H"; //clear screen
+		ClearTerminal();
 
 		switch (inpC)
 		{
@@ -70,11 +70,13 @@ void Menu()
 			n = GetGenerations();
 			IterateGens(gPtr, n);
 			break;
+		case 'x':
+			cout << "Exiting...\n";
+			break;
 		default:
 			cout << "Invalid choice\n\n";
 			break;
 		}		
-		//delete gPtr;
 	}
 }
 
@@ -131,6 +133,12 @@ Grid *GetSimple()
 	gPtr->GetCells()[2][4].SetAlive();
 
 	return gPtr;
+}
+
+void ClearTerminal()
+{
+	//Fix for clearing terminal (work's pretty well)
+	cout << "\033[2J\033[1;1H";
 }
 
 

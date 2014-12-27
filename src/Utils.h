@@ -12,4 +12,6 @@ Grid *GetSimple();
 Grid *GetGlider();
 Grid *GetBlinker();
 
+void ClearTerminal();
+
 #endif
