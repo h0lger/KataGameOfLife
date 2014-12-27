@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include <unistd.h>
 
 static unsigned short GetGenerations()
 {
@@ -18,10 +19,11 @@ void IterateGens(Grid *gPtr, unsigned short n)
 	//Iterate for n generations
 	for (size_t i = 0; i < n; i++)
 	{
-		system("CLS"); //clear screen
+		cout << "\033[2J\033[1;1H"; //clear screen
 		cout << *gPtr;
 		cout << "\n[" << (i + 1) << " / " << n << " generation]";
-		_sleep(ANIMATION_SPEED); //sleep to create animation effect
+		usleep(ANIMATION_SPEED);
+		//_sleep(ANIMATION_SPEED); //sleep to create animation effect
 		gPtr->NextGeneration();
 	}
 
@@ -46,7 +48,7 @@ void Menu()
 		cout << "3. Glider\n";
 		cout << "x. Exit\n";
 		cin >> inpC;
-		system("CLS"); //clear screen
+		cout << "\033[2J\033[1;1H"; //clear screen
 
 		switch (inpC)
 		{

@@ -57,7 +57,7 @@ void Grid::NextGeneration()
 	{
 		for (unsigned short c = 0; c < _arrSize; c++) //cells
 		{
-			nAlive = CountNeighbours(CellState::Alive, r, c, clone);
+			nAlive = CountNeighbours(Alive, r, c, clone);
 
 			//For all living cells
 			if (_cellArrPtr[r][c].IsAlive())
@@ -145,9 +145,9 @@ unsigned short Grid::CountNeighbours(CellState cState, unsigned short r, unsigne
 
 	for (size_t i = 0; i < nCells; i++)
 	{
-		if (cState == CellState::Alive && ne[i].IsAlive())
+		if (cState == Alive && ne[i].IsAlive())
 			count++;
-		else if (cState == CellState::Dead && !ne[i].IsAlive())
+		else if (cState == Dead && !ne[i].IsAlive())
 			count++;
 	}
 
