@@ -2,10 +2,13 @@
 
 static unsigned short GetGenerations()
 {
-	unsigned short n = 0;
-	cout << "Enter number of generations:";
-	//TODO: Validate
-	cin >> n;
+	unsigned short n = 0;	
+	//Simple validation
+	while (n < 2 || n > 100)
+	{		
+		cout << "\nEnter number of generations (2-100):";
+		cin >> n;
+	}
 	return n;
 }
 
