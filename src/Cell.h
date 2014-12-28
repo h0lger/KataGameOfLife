@@ -13,8 +13,7 @@ public:
 	Cell();
 	Cell(const Cell &); //Copy constructor
 	~Cell();
-
-	//const Cell &operator=(const Cell &);
+	
 	void SetDead();
 	void SetAlive();
 	bool IsAlive();
