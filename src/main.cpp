@@ -7,7 +7,7 @@ int main()
 	UnitTest_NextGen_Blinker();
 	UnitTest_NextGen_Glider();
 
-	Menu(); //show main menu	
+	Menu(); //show main menu
 
 	return 0;
 }

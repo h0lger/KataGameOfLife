@@ -11,3 +11,8 @@ You start with a two dimensional grid of cells, where each cell is either alive 
    2. Any live cell with more than three live neighbours dies, as if by overcrowding.
    3. Any live cell with two or three live neighbours lives on to the next generation.
    4. Any dead cell with exactly three live neighbours becomes a live cell.
+
+Prerequisites
+
+sudo apt-get install libgtk-3-dev
+sudo apt-get install libcairo2-dev   

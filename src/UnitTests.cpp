@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include <assert.h>
 
+
 bool UnitTest_Print()
 {
 	Grid *gPtr = GetSimple();
@@ -139,4 +140,9 @@ bool UnitTest_NextGen_Blinker()
 	delete gPtr;
 
 	return true;	
+}
+
+bool UnitTest_Cairo()
+{
+	return true;
 }
