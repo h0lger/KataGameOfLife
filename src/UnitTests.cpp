@@ -2,6 +2,7 @@
 #include "Grid.h"
 #include "Utils.h"
 #include <assert.h>
+#include "GTKWrapper.h"
 
 
 bool UnitTest_Print()
@@ -142,7 +143,9 @@ bool UnitTest_NextGen_Blinker()
 	return true;	
 }
 
-bool UnitTest_Cairo()
+bool UnitTest_Cairo(int argc, char *argv[])
 {
+	show_window(argc, argv);
+
 	return true;
 }
