@@ -8,7 +8,7 @@
 bool UnitTest_Print()
 {
 	Grid *gPtr = GetSimple();
-	cout << *gPtr;	
+	render_iterations(gPtr, 0);
 
 	delete gPtr;
 	return true;
@@ -145,7 +145,7 @@ bool UnitTest_NextGen_Blinker()
 
 bool UnitTest_Cairo(int argc, char *argv[])
 {
-	show_window(argc, argv);
+	
 
 	return true;
 }

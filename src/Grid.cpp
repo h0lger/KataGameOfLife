@@ -153,3 +153,8 @@ unsigned short Grid::CountNeighbours(CellState cState, unsigned short r, unsigne
 
 	return count;
 }
+
+unsigned short Grid::ArrSize()
+{
+	return _arrSize;
+}

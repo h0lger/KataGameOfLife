@@ -1,5 +1,6 @@
 #include "Utils.h"
 #include <unistd.h>
+#include "GTKWrapper.h"
 
 static unsigned short GetGenerations()
 {
@@ -11,23 +12,6 @@ static unsigned short GetGenerations()
 		cin >> n;
 	}
 	return n;
-}
-
-//Iterate generations
-void IterateGens(Grid *gPtr, unsigned short n)
-{
-	//Iterate for n generations
-	for (size_t i = 0; i < n; i++)
-	{
-		ClearTerminal();
-		cout << *gPtr;
-		cout << "\n[" << (i + 1) << " / " << n << " generation]";
-		usleep(ANIMATION_SPEED);
-		//_sleep(ANIMATION_SPEED); //sleep to create animation effect
-		gPtr->NextGeneration();
-	}
-
-	cout << "\nFinished.\n";
 }
 
 //Run main menu
@@ -56,19 +40,19 @@ void Menu()
 			cout << "Running simple start position...\n\n";			
 			gPtr = GetSimple();
 			n = GetGenerations();
-			IterateGens(gPtr, n);
+			render_iterations(gPtr, n);			
 			break;
 		case '2':
 			cout << "Running blinker start position...\n\n";			
 			gPtr = GetBlinker();
 			n = GetGenerations();
-			IterateGens(gPtr, n);
+			render_iterations(gPtr, n);
 			break;
 		case '3':
 			cout << "Running glider start position...\n\n";			
 			gPtr = GetGlider();
 			n = GetGenerations();
-			IterateGens(gPtr, n);
+			render_iterations(gPtr, n);
 			break;
 		case 'x':
 			cout << "Exiting...\n";

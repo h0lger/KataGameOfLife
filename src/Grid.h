@@ -18,6 +18,7 @@ public:
 	friend ostream& operator<<(ostream& output, const Grid& G);
 	void InitGrid();
 	Cell ** GetCells();
+	unsigned short ArrSize();
 
 private:
 	Cell **_cellArrPtr;
@@ -28,5 +29,6 @@ private:
 	void AddNeighbour(unsigned short r, unsigned short c, bool skipCEqual, unsigned short *countPtr, Cell *tmpCellArrPtr, Cell **cellArrPtr);
 	unsigned short CountNeighbours(CellState cState, unsigned short r, unsigned short c, Cell **cellArrPtr);
 };
+
 
 #endif

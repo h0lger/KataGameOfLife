@@ -7,9 +7,10 @@ int main(int argc, char *argv[])
 	UnitTest_NextGen_Blinker();
 	UnitTest_NextGen_Glider();
 
-	//Menu(); //show main menu
-
-	UnitTest_Cairo(argc, argv);
+	Menu(); //show main menu
+	
+	//UnitTest_Print();
+	
 
 	return 0;
 }
