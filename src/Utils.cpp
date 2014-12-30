@@ -1,6 +1,6 @@
 #include "Utils.h"
 #include <unistd.h>
-#include "GTKWrapper.h"
+#include "GfxWrapper.h"
 
 static unsigned short GetGenerations()
 {

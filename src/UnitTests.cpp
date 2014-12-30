@@ -2,7 +2,7 @@
 #include "Grid.h"
 #include "Utils.h"
 #include <assert.h>
-#include "GTKWrapper.h"
+#include "GfxWrapper.h"
 
 
 bool UnitTest_Print()
@@ -143,9 +143,9 @@ bool UnitTest_NextGen_Blinker()
 	return true;	
 }
 
-bool UnitTest_Cairo(int argc, char *argv[])
+bool UnitTest_sfml(int argc, char *argv[])
 {
-	
+	render_sfml();
 
 	return true;
 }

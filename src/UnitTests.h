@@ -6,6 +6,6 @@
 bool UnitTest_Print();
 bool UnitTest_NextGen_Glider();
 bool UnitTest_NextGen_Blinker();
-bool UnitTest_Cairo(int argc, char *argv[]);
+bool UnitTest_sfml(int argc, char *argv[]);
 
 #endif
