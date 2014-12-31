@@ -14,5 +14,4 @@ You start with a two dimensional grid of cells, where each cell is either alive 
 
 Prerequisites
 
-sudo apt-get install libgtk-3-dev
-sudo apt-get install libcairo2-dev   
+sudo apt-get install libsfml-dev

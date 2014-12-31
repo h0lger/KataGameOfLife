@@ -1,130 +1,77 @@
 #include "GfxWrapper.h"
-#include "Grid.h"
-#include <SFML/Graphics.hpp>
 
-Grid *_gPtr = NULL;
-ushort _iter = 0; //Number of iterations
-struct timespec _timReq, _timRem;
+static void iterate(Grid *, sf::RenderWindow);
+static sf::RectangleShape CreateAliveCell(uint, uint);
 
-static void do_drawing(cairo_t *);
-static void iterate(cairo_t *);
-
-static void iterate(cairo_t *cr)
+static sf::RectangleShape CreateAliveCell(uint pos_x, uint pos_Y)
 {
-	Cell **tmpC = _gPtr->GetCells();
-	ushort xOffset = 0;
-	ushort yOffset = 0;
+	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
+  rect.setPosition(pos_x, pos_Y);
+  rect.setFillColor(RECT_COLOR);
 	
-	for (size_t r = 0; r < _gPtr->ArrSize(); r++) //rows
-	{
-		Cell *rCell = tmpC[r];
-		for (size_t c = 0; c < _gPtr->ArrSize(); c++) //cells
-		{
-			if (rCell[c].IsAlive())
-			{
-				cairo_rectangle(cr, xOffset, yOffset, CELL_WEIGHT, CELL_WEIGHT);				
-				cairo_stroke_preserve(cr);
-				cairo_fill(cr);
-			}
-			//increase x offset for every cell
-			xOffset += CELL_WEIGHT + CELL_SPACING;
-		}
-			//increase y offset for every row
-			yOffset += CELL_WEIGHT + CELL_SPACING;
-			xOffset = 0;
-		}
+	return rect;
 }
 
-static void do_drawing(cairo_t *cr)
+static void iterate(Grid *gPtr, sf::RenderWindow *window)
 {
-	cairo_set_source_rgb(cr, 0, .555, .100);
-	
-	iterate(cr); //if _iter == 0 just for showing
-	
-	for(size_t i = 0;i < _iter;i++)
-	{
-		//nanosleep(&_timReq, &_timRem);
-		_gPtr->NextGeneration();
-		iterate(cr);		
-	}
+  Cell **tmpC = gPtr->GetCells();
+  ushort xOffset = 0;
+  ushort yOffset = 0;
 
-}
-
-static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data)
-{
-	do_drawing(cr);
-
-	return false;
+  for(size_t r = 0; r < gPtr->ArrSize(); r++) // rows
+  {
+    Cell *rCell = tmpC[r];
+    for(size_t c = 0; c < gPtr->ArrSize(); c++) // cells
+    {
+      if(rCell[c].IsAlive())
+      {
+				//draw!
+				sf::RectangleShape tmpCellShape = CreateAliveCell(xOffset, yOffset);
+				window->draw(tmpCellShape);
+      }
+      // increase x offset for every cell
+      xOffset += CELL_WEIGHT + CELL_SPACING;
+    }
+    // increase y offset for every row
+    yOffset += CELL_WEIGHT + CELL_SPACING;
+    xOffset = 0;
+  }
 }
 
 void render_iterations(Grid *gPtr, ushort n)
-{	
-	
-	GtkWidget *window;
-	GtkWidget *darea;
-	
-	
-	//Initialize some members
-	_gPtr = gPtr;
-	_iter = n;
-	_timReq.tv_sec = 0;
-	_timReq.tv_nsec = ANIMATION_SPEED_MS * 1000000;
-	
-	gtk_init(NULL, NULL);
-
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-	darea = gtk_drawing_area_new();
-	gtk_container_add(GTK_CONTAINER(window), darea);
-
-	g_signal_connect(G_OBJECT(darea), "draw", G_CALLBACK(on_draw_event), NULL);
-	//g_signal_connect(window, "expose_event", G_CALLBACK(expose), NULL);
-	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-	gtk_window_set_default_size(GTK_WINDOW(window), DEF_SCREEN_X, DEF_SCREEN_Y);
-	gtk_window_set_title(GTK_WINDOW(window), "KataGameOfLife");
-	gtk_widget_override_background_color(darea, GTK_STATE_FLAG_NORMAL, &color_dark);
-
-	gtk_widget_show_all(window);
-	gtk_main();	
-}
-
-void render_sfml()
 {
-	sf::ContextSettings settings;	
-	settings.antialiasingLevel = 8;	
-	sf::Clock clock; //starts clock
-	
-	sf::RenderWindow window(sf::VideoMode(640, 480), "Test", sf::Style::Default, settings);
-	
-	
-	//shapes	
-	sf::RectangleShape rect(sf::Vector2f(20, 20));
-	rect.setPosition(10, 10);	
-	rect.setFillColor(RECT_COLOR);
-	
-	while(window.isOpen())
-	{
-		sf::Event event;
-		while(window.pollEvent(event))
-		{
-			if(event.type == sf::Event::Closed)
+	sf::ContextSettings settings;
+  settings.antialiasingLevel = DEF_ANTIALAISING;
+  sf::Clock clock; // starts clock
+	bool run = true;
+	size_t i = 0;
+
+  sf::RenderWindow window(sf::VideoMode(DEF_SCREEN_X, DEF_SCREEN_Y), "KataGameOfLife", sf::Style::Default, settings);
+
+  // shapes
+  sf::RectangleShape rect = CreateAliveCell(10, 10);
+
+  while(run)
+  {		
+    sf::Event event;
+    while(window.pollEvent(event))
+    {
+      if(event.type == sf::Event::Closed)
 				window.close();
-			
-		}		
-		sf::Time elapsed = clock.getElapsedTime();		
-	
-		//draw...
-		if(elapsed.asMilliseconds() > 500) //refresh every 500ms
-		{
-			window.clear(BACKGROUND);			
-			window.draw(rect);
-			window.display();
-			std::cout << "Refresh\n";
+    }
+    sf::Time elapsed = clock.getElapsedTime();
+
+    // draw...
+    if(i <= n && elapsed.asMilliseconds() > ANIMATION_SPEED_MS) // refresh every 500ms
+    {
+      window.clear(BACKGROUND);
+      iterate(gPtr, &window);
+      window.display();			
+      std::cout << "Refresh\n";      
+			i++;
+			if(i > 0 && i % n != 0) gPtr->NextGeneration();
 			clock.restart();
-		}		
-		
-	} //isOpen	
-	
+    }
+		run = window.isOpen();
+  } // run
 }

@@ -145,7 +145,7 @@ bool UnitTest_NextGen_Blinker()
 
 bool UnitTest_sfml(int argc, char *argv[])
 {
-	render_sfml();
+	//render_sfml();
 
 	return true;
 }
