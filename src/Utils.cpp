@@ -6,9 +6,9 @@ static unsigned short GetGenerations()
 {
 	unsigned short n = 0;	
 	//Simple validation
-	while (n < 2 || n > 100)
+	while (n < 2 || n > 500)
 	{		
-		cout << "\nEnter number of generations (2-100):";
+		cout << "\nEnter number of generations (2-500):";
 		cin >> n;
 	}
 	return n;
@@ -22,6 +22,7 @@ void Menu()
 	exitChar[0] = 'x';
 	unsigned short n = 0; //number of generations
 	Grid *gPtr = NULL;
+	GfxWrapper wrapper = GfxWrapper();
 
 	while (inpC != exitChar[0])
 	{
@@ -40,19 +41,19 @@ void Menu()
 			cout << "Running simple start position...\n\n";			
 			gPtr = GetSimple();
 			n = GetGenerations();
-			render_iterations(gPtr, n);			
+			wrapper.Render(gPtr, n);
 			break;
 		case '2':
 			cout << "Running blinker start position...\n\n";			
 			gPtr = GetBlinker();
 			n = GetGenerations();
-			render_iterations(gPtr, n);
+			wrapper.Render(gPtr, n);
 			break;
 		case '3':
 			cout << "Running glider start position...\n\n";			
 			gPtr = GetGlider();
 			n = GetGenerations();
-			render_iterations(gPtr, n);
+			wrapper.Render(gPtr, n, 20);
 			break;
 		case 'x':
 			cout << "Exiting...\n";

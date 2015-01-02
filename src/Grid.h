@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-#define DEFAULT_GRID_SIZE 20
+#define DEFAULT_GRID_SIZE 40
 #define N_ARR_SIZE 8 //Max number of neighbours
 
 class Grid

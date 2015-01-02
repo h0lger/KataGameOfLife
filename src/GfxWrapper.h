@@ -4,18 +4,36 @@
 #include <SFML/Graphics.hpp>
 
 #define GFX_WRAPPER_H
-#define DEF_SCREEN_X 500 //default x
-#define DEF_SCREEN_Y 500 //default y
 #define CELL_WEIGHT 6
 #define CELL_SPACING 3
-#define ANIMATION_SPEED_MS 200 //milliseconds
+#define DEF_ANIMATION_SPEED_MS 200 //milliseconds
 #define DEF_ANTIALAISING 8
 
-static sf::Color BACKGROUND(35, 35, 35);
-static sf::Color RECT_COLOR(0, 145, 100);
+class GfxWrapper
+{
+public:
+	GfxWrapper();
+	~GfxWrapper();
+	
+	static sf::Color BACKGROUND;
+	static sf::Color ALIVE_CELL;
+	static sf::Color DEAD_CELL;
+	
+	void Render(Grid *, ushort);
+	//Render with custom animation speed
+	void Render(Grid *, ushort, ushort);
+	
+private:
 
+	ushort _screen_x;
+	ushort _screen_y;	
+	static sf::RectangleShape CreateAliveCell(uint, uint);
+	static sf::RectangleShape CreateDeadCell(uint, uint);
+	void Init(Grid *);
+	void RenderGrid(Grid *, sf::RenderWindow *);
+	void InnerRender(Grid *, ushort, ushort);
+};
 
-void render_iterations(Grid *, ushort);
 
 #endif
 

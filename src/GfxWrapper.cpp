@@ -1,34 +1,57 @@
 #include "GfxWrapper.h"
 
-static void iterate(Grid *, sf::RenderWindow);
-static sf::RectangleShape CreateAliveCell(uint, uint);
+//Members
+sf::Color GfxWrapper::BACKGROUND = sf::Color(35, 35, 35);
+sf::Color GfxWrapper::ALIVE_CELL = sf::Color(0, 145, 100);
+sf::Color GfxWrapper::DEAD_CELL = sf::Color(30, 30, 30);
 
-static sf::RectangleShape CreateAliveCell(uint pos_x, uint pos_Y)
+sf::RectangleShape GfxWrapper::CreateAliveCell(uint pos_x, uint pos_Y)
 {
 	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
   rect.setPosition(pos_x, pos_Y);
-  rect.setFillColor(RECT_COLOR);
+  rect.setFillColor(ALIVE_CELL);
 	
 	return rect;
 }
 
-static void iterate(Grid *gPtr, sf::RenderWindow *window)
+void GfxWrapper::Init(Grid *gPtr)
+{
+	//Initialze window size
+	_screen_x = gPtr->ArrSize() * (CELL_WEIGHT + CELL_SPACING);
+	_screen_y = gPtr->ArrSize() * (CELL_WEIGHT + CELL_SPACING);	
+}
+
+sf::RectangleShape GfxWrapper::CreateDeadCell(uint pos_x, uint pos_Y)
+{
+	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
+  rect.setPosition(pos_x, pos_Y);
+  rect.setFillColor(DEAD_CELL);
+	
+	return rect;
+}
+
+GfxWrapper::GfxWrapper() {}
+GfxWrapper::~GfxWrapper() {}
+
+void GfxWrapper::RenderGrid(Grid *gPtr, sf::RenderWindow *window)
 {
   Cell **tmpC = gPtr->GetCells();
   ushort xOffset = 0;
   ushort yOffset = 0;
+	sf::RectangleShape tmpCellShape;
 
   for(size_t r = 0; r < gPtr->ArrSize(); r++) // rows
   {
     Cell *rCell = tmpC[r];
     for(size_t c = 0; c < gPtr->ArrSize(); c++) // cells
     {
-      if(rCell[c].IsAlive())
-      {
-				//draw!
-				sf::RectangleShape tmpCellShape = CreateAliveCell(xOffset, yOffset);
-				window->draw(tmpCellShape);
-      }
+      if(rCell[c].IsAlive())      				
+				tmpCellShape = CreateAliveCell(xOffset, yOffset);      
+			else
+				tmpCellShape = CreateDeadCell(xOffset, yOffset);
+			//draw dead or alive cell
+			window->draw(tmpCellShape);
+				
       // increase x offset for every cell
       xOffset += CELL_WEIGHT + CELL_SPACING;
     }
@@ -38,15 +61,28 @@ static void iterate(Grid *gPtr, sf::RenderWindow *window)
   }
 }
 
-void render_iterations(Grid *gPtr, ushort n)
+void GfxWrapper::Render(Grid *gPtr, ushort n)
+{
+	InnerRender(gPtr, n, DEF_ANIMATION_SPEED_MS);
+}
+
+void GfxWrapper::Render(Grid *gPtr, ushort n, ushort aniSpeed)
+{
+	InnerRender(gPtr, n, aniSpeed);
+}
+
+//Render with none default animations speed
+void GfxWrapper::InnerRender(Grid *gPtr, ushort n, ushort aniSpeed)
 {
 	sf::ContextSettings settings;
   settings.antialiasingLevel = DEF_ANTIALAISING;
   sf::Clock clock; // starts clock
 	bool run = true;
 	size_t i = 0;
+	Init(gPtr);
+	
 
-  sf::RenderWindow window(sf::VideoMode(DEF_SCREEN_X, DEF_SCREEN_Y), "KataGameOfLife", sf::Style::Default, settings);
+  sf::RenderWindow window(sf::VideoMode(_screen_x, _screen_y), "KataGameOfLife", sf::Style::Default, settings);
 
   // shapes
   sf::RectangleShape rect = CreateAliveCell(10, 10);
@@ -62,12 +98,11 @@ void render_iterations(Grid *gPtr, ushort n)
     sf::Time elapsed = clock.getElapsedTime();
 
     // draw...
-    if(i <= n && elapsed.asMilliseconds() > ANIMATION_SPEED_MS) // refresh every 500ms
+    if(i <= n && elapsed.asMilliseconds() > aniSpeed) // refresh
     {
       window.clear(BACKGROUND);
-      iterate(gPtr, &window);
-      window.display();			
-      std::cout << "Refresh\n";      
+      RenderGrid(gPtr, &window);
+      window.display();      
 			i++;
 			if(i > 0 && i % n != 0) gPtr->NextGeneration();
 			clock.restart();
