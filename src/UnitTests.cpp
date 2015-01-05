@@ -146,7 +146,8 @@ bool UnitTest_NextGen_Blinker()
 
 bool UnitTest_sfml(int argc, char *argv[])
 {
-	//render_sfml();
+	GfxWrapper wrapper = GfxWrapper();
+	wrapper.TestRenderGfx();
 
 	return true;
 }

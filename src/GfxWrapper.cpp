@@ -50,6 +50,7 @@ void GfxWrapper::RenderGrid(Grid *gPtr, sf::RenderWindow *window)
 			else
 				tmpCellShape = CreateDeadCell(xOffset, yOffset);
 			//draw dead or alive cell
+			
 			window->draw(tmpCellShape);
 				
       // increase x offset for every cell
@@ -79,13 +80,9 @@ void GfxWrapper::InnerRender(Grid *gPtr, ushort n, ushort aniSpeed)
   sf::Clock clock; // starts clock
 	bool run = true;
 	size_t i = 0;
-	Init(gPtr);
-	
+	Init(gPtr);	
 
-  sf::RenderWindow window(sf::VideoMode(_screen_x, _screen_y), "KataGameOfLife", sf::Style::Default, settings);
-
-  // shapes
-  sf::RectangleShape rect = CreateAliveCell(10, 10);
+  sf::RenderWindow window(sf::VideoMode(_screen_x, _screen_y), "KataGameOfLife", sf::Style::Default, settings);	
 
   while(run)
   {		
@@ -100,13 +97,58 @@ void GfxWrapper::InnerRender(Grid *gPtr, ushort n, ushort aniSpeed)
     // draw...
     if(i <= n && elapsed.asMilliseconds() > aniSpeed) // refresh
     {
-      window.clear(BACKGROUND);
+      window.clear(BACKGROUND);			
+			
       RenderGrid(gPtr, &window);
       window.display();      
 			i++;
-			if(i > 0 && i % n != 0) gPtr->NextGeneration();
+			if(i > 0 && n > 0 && i % n != 0) gPtr->NextGeneration();
 			clock.restart();
     }
-		run = window.isOpen();
+		run = window.isOpen();		
+  } // run
+}
+
+void GfxWrapper::TestRenderGfx()
+{
+	sf::ContextSettings settings;
+  settings.antialiasingLevel = DEF_ANTIALAISING;
+  sf::Clock clock; // starts clock
+	bool run = true;
+	sf::Vertex rect[] = 
+	{		
+			sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, 100)),
+			sf::Vertex(sf::Vector2f(500, 0), sf::Color(0, 0, 0, 100)),
+			sf::Vertex(sf::Vector2f(500, 500), sf::Color(0, 0, 10, 250)),
+			sf::Vertex(sf::Vector2f(0, 500), sf::Color(1, 1, 1, 250))
+	};
+	
+	//Init(gPtr);	
+
+  sf::RenderWindow window(sf::VideoMode(500, 500), "KataGameOfLife", sf::Style::Default, settings);	
+
+  while(run)
+  {		
+    sf::Event event;
+    while(window.pollEvent(event))
+    {
+      if(event.type == sf::Event::Closed)
+				window.close();
+    }
+    sf::Time elapsed = clock.getElapsedTime();
+
+    // draw...    
+      window.clear(BACKGROUND);
+			//draw			
+			window.draw(rect, 4, sf::Quads);
+			GfxCell gCell = GfxCell();
+			gCell.setPosition(5, 5);			
+			window.draw(gCell);
+      
+      window.display();			
+			
+			clock.restart();
+    
+		run = window.isOpen();		
   } // run
 }

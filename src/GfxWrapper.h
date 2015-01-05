@@ -2,12 +2,13 @@
 
 #include "Grid.h"
 #include <SFML/Graphics.hpp>
+#include "GfxCell.h"
 
 #define GFX_WRAPPER_H
 #define CELL_WEIGHT 6
 #define CELL_SPACING 3
 #define DEF_ANIMATION_SPEED_MS 200 //milliseconds
-#define DEF_ANTIALAISING 8
+#define DEF_ANTIALAISING 12
 
 class GfxWrapper
 {
@@ -22,6 +23,7 @@ public:
 	void Render(Grid *, ushort);
 	//Render with custom animation speed
 	void Render(Grid *, ushort, ushort);
+	void TestRenderGfx();
 	
 private:
 
