@@ -10,6 +10,12 @@
 #define DEF_ANIMATION_SPEED_MS 200 //milliseconds
 #define DEF_ANTIALAISING 12
 
+enum GfxType
+{
+	Simple = 0,
+	Texture = 1
+};
+
 class GfxWrapper
 {
 public:
@@ -20,17 +26,20 @@ public:
 	static sf::Color ALIVE_CELL;
 	static sf::Color DEAD_CELL;
 	
-	void Render(Grid *, ushort);
+	void Render(Grid *, ushort, GfxType);
 	//Render with custom animation speed
-	void Render(Grid *, ushort, ushort);
+	void Render(Grid *, ushort, ushort, GfxType);
 	void TestRenderGfx();
 	
 private:
 
 	ushort _screen_x;
-	ushort _screen_y;	
-	static sf::RectangleShape CreateAliveCell(uint, uint);
-	static sf::RectangleShape CreateDeadCell(uint, uint);
+	ushort _screen_y;
+	GfxType _gfxType;
+	static sf::RectangleShape CreateAliveSimpleCell(uint, uint);
+	static sf::RectangleShape CreateDeadSimpleCell(uint, uint);
+	static GfxCell CreateAliveTextureCell(uint, uint);
+	static GfxCell CreateDeadTextureCell(uint, uint);
 	void Init(Grid *);
 	void RenderGrid(Grid *, sf::RenderWindow *);
 	void InnerRender(Grid *, ushort, ushort);

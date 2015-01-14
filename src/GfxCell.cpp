@@ -11,7 +11,7 @@ GfxCell::~GfxCell()
 void GfxCell::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {	
 	states.transform *= getTransform();
-	sf::CircleShape cOuter(10, 100);
+	sf::CircleShape cOuter(12, 100);
 	sf::Texture tmpText;
 	tmpText.loadFromFile("./img/cell.png", sf::IntRect(0, 0, 32, 32));
 	tmpText.setSmooth(true);

@@ -28,9 +28,12 @@ void Menu()
 	{
 		cout << "-= Game of Life =-\n\n";
 		cout << "Choose the start position of the cells for you game:\n";
-		cout << "1. Simple\n";
-		cout << "2. Blinker\n";
-		cout << "3. Glider\n";
+		cout << "1. Simple (simple render)\n";
+		cout << "2. Blinker (simple render)\n";
+		cout << "3. Glider (simple render)\n";
+		cout << "4. Simple (texture render)\n";
+		cout << "5. Blinker (texture render)\n";
+		cout << "6. Glider (texture render)\n";
 		cout << "x. Exit\n";
 		cin >> inpC;
 		ClearTerminal();
@@ -41,19 +44,37 @@ void Menu()
 			cout << "Running simple start position...\n\n";			
 			gPtr = GetSimple();
 			n = GetGenerations();
-			wrapper.Render(gPtr, n);
+			wrapper.Render(gPtr, n, Simple);
+			break;
+		case '4':
+			cout << "Running simple start position...\n\n";			
+			gPtr = GetSimple();
+			n = GetGenerations();
+			wrapper.Render(gPtr, n, Texture);
 			break;
 		case '2':
 			cout << "Running blinker start position...\n\n";			
 			gPtr = GetBlinker();
 			n = GetGenerations();
-			wrapper.Render(gPtr, n);
+			wrapper.Render(gPtr, n, Simple);
+			break;
+		case '5':
+			cout << "Running blinker start position...\n\n";			
+			gPtr = GetBlinker();
+			n = GetGenerations();
+			wrapper.Render(gPtr, n, Texture);
 			break;
 		case '3':
 			cout << "Running glider start position...\n\n";			
 			gPtr = GetGlider();
 			n = GetGenerations();
-			wrapper.Render(gPtr, n, 20);
+			wrapper.Render(gPtr, n, 20, Simple);
+			break;
+		case '6':
+			cout << "Running glider start position...\n\n";			
+			gPtr = GetGlider();
+			n = GetGenerations();
+			wrapper.Render(gPtr, n, 20, Texture);
 			break;
 		case 'x':
 			cout << "Exiting...\n";

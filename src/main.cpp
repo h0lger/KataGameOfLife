@@ -8,10 +8,10 @@ int main(int argc, char *argv[])
 	UnitTest_NextGen_Glider();
 
 	//UnitTest_Print();
-	//Menu(); //show main menu
+	Menu(); //show main menu
 	
 	
-	UnitTest_sfml(argc, argv);
+	//UnitTest_sfml(argc, argv);
 
 	return 0;
 }

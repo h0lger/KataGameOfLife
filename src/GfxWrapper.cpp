@@ -5,13 +5,39 @@ sf::Color GfxWrapper::BACKGROUND = sf::Color(35, 35, 35);
 sf::Color GfxWrapper::ALIVE_CELL = sf::Color(0, 145, 100);
 sf::Color GfxWrapper::DEAD_CELL = sf::Color(30, 30, 30);
 
-sf::RectangleShape GfxWrapper::CreateAliveCell(uint pos_x, uint pos_Y)
+sf::RectangleShape GfxWrapper::CreateAliveSimpleCell(uint pos_x, uint pos_Y)
 {
 	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
   rect.setPosition(pos_x, pos_Y);
   rect.setFillColor(ALIVE_CELL);
 	
 	return rect;
+}
+
+GfxCell GfxWrapper::CreateAliveTextureCell(uint pos_x, uint pos_Y)
+{
+	GfxCell gCell = GfxCell();
+  gCell.setPosition(pos_x, pos_Y);  
+	
+	return gCell;
+}
+
+sf::RectangleShape GfxWrapper::CreateDeadSimpleCell(uint pos_x, uint pos_Y)
+{
+	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
+  rect.setPosition(pos_x, pos_Y);
+  rect.setFillColor(DEAD_CELL);
+	
+	return rect;
+}
+
+GfxCell GfxWrapper::CreateDeadTextureCell(uint pos_x, uint pos_Y)
+{
+	GfxCell gCell = GfxCell();
+	gCell.setPosition(-30, -30); //quickfix
+  //gCell.setPosition(pos_x, pos_Y);  
+	
+	return gCell;	
 }
 
 void GfxWrapper::Init(Grid *gPtr)
@@ -21,15 +47,6 @@ void GfxWrapper::Init(Grid *gPtr)
 	_screen_y = gPtr->ArrSize() * (CELL_WEIGHT + CELL_SPACING);	
 }
 
-sf::RectangleShape GfxWrapper::CreateDeadCell(uint pos_x, uint pos_Y)
-{
-	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
-  rect.setPosition(pos_x, pos_Y);
-  rect.setFillColor(DEAD_CELL);
-	
-	return rect;
-}
-
 GfxWrapper::GfxWrapper() {}
 GfxWrapper::~GfxWrapper() {}
 
@@ -37,21 +54,33 @@ void GfxWrapper::RenderGrid(Grid *gPtr, sf::RenderWindow *window)
 {
   Cell **tmpC = gPtr->GetCells();
   ushort xOffset = 0;
-  ushort yOffset = 0;
+  ushort yOffset = 0;	
 	sf::RectangleShape tmpCellShape;
+	GfxCell gCell;
 
   for(size_t r = 0; r < gPtr->ArrSize(); r++) // rows
   {
     Cell *rCell = tmpC[r];
     for(size_t c = 0; c < gPtr->ArrSize(); c++) // cells
     {
-      if(rCell[c].IsAlive())      				
-				tmpCellShape = CreateAliveCell(xOffset, yOffset);      
+			if(_gfxType == Simple)
+			{
+				if(rCell[c].IsAlive())      				
+					tmpCellShape = CreateAliveSimpleCell(xOffset, yOffset);      
+				else
+					tmpCellShape = CreateDeadSimpleCell(xOffset, yOffset);
+				//draw dead or alive cell				
+				window->draw(tmpCellShape);
+			}
 			else
-				tmpCellShape = CreateDeadCell(xOffset, yOffset);
-			//draw dead or alive cell
-			
-			window->draw(tmpCellShape);
+			{
+				if(rCell[c].IsAlive())      				
+					gCell = CreateAliveTextureCell(xOffset, yOffset);      
+				else
+					gCell = CreateDeadTextureCell(xOffset, yOffset);
+				//draw dead or alive cell				
+				window->draw(gCell);
+			}		
 				
       // increase x offset for every cell
       xOffset += CELL_WEIGHT + CELL_SPACING;
@@ -62,14 +91,16 @@ void GfxWrapper::RenderGrid(Grid *gPtr, sf::RenderWindow *window)
   }
 }
 
-void GfxWrapper::Render(Grid *gPtr, ushort n)
+void GfxWrapper::Render(Grid *gPtr, ushort n, GfxType gfxType)
 {
+	_gfxType = gfxType;
 	InnerRender(gPtr, n, DEF_ANIMATION_SPEED_MS);
 }
 
-void GfxWrapper::Render(Grid *gPtr, ushort n, ushort aniSpeed)
+void GfxWrapper::Render(Grid *gPtr, ushort n, ushort aniSpeed, GfxType gfxType)
 {
-	InnerRender(gPtr, n, aniSpeed);
+	_gfxType = gfxType;
+	InnerRender(gPtr, n, aniSpeed);	
 }
 
 //Render with none default animations speed
@@ -97,7 +128,7 @@ void GfxWrapper::InnerRender(Grid *gPtr, ushort n, ushort aniSpeed)
     // draw...
     if(i <= n && elapsed.asMilliseconds() > aniSpeed) // refresh
     {
-      window.clear(BACKGROUND);			
+      window.clear(BACKGROUND);
 			
       RenderGrid(gPtr, &window);
       window.display();      
@@ -117,10 +148,10 @@ void GfxWrapper::TestRenderGfx()
 	bool run = true;
 	sf::Vertex rect[] = 
 	{		
-			sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, 100)),
-			sf::Vertex(sf::Vector2f(500, 0), sf::Color(0, 0, 0, 100)),
-			sf::Vertex(sf::Vector2f(500, 500), sf::Color(0, 0, 10, 250)),
-			sf::Vertex(sf::Vector2f(0, 500), sf::Color(1, 1, 1, 250))
+			sf::Vertex(sf::Vector2f(0, 0), sf::Color(7, 74, 126, 255)),
+			sf::Vertex(sf::Vector2f(500, 0), sf::Color(7, 74, 126, 255)),
+			sf::Vertex(sf::Vector2f(500, 500), sf::Color(30, 109, 166, 255)),
+			sf::Vertex(sf::Vector2f(0, 500), sf::Color(30, 109, 166, 255))
 	};
 	
 	//Init(gPtr);	

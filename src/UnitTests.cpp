@@ -9,7 +9,7 @@ bool UnitTest_Print()
 {
 	Grid *gPtr = GetSimple();
 	GfxWrapper wrapper = GfxWrapper();
-	wrapper.Render(gPtr, 0);
+	wrapper.Render(gPtr, 0, Simple);
 
 	delete gPtr;
 	return true;
