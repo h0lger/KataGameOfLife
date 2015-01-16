@@ -1,7 +1,7 @@
 #ifndef GFXCELL_H
 #define GFXCELL_H
 #include <SFML/Graphics.hpp>
-#define CELL_RADIUS 20
+#define DEF_TEXTURE_CELL_SIZE 13 //radius
 
 class GfxCell : public sf::Drawable, public sf::Transformable
 {

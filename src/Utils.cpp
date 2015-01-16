@@ -42,37 +42,37 @@ void Menu()
 		{
 		case '1':
 			cout << "Running simple start position...\n\n";			
-			gPtr = GetSimple();
+			gPtr = GetSimple(DEF_GRID_SIZE_SIMPLE);
 			n = GetGenerations();
 			wrapper.Render(gPtr, n, Simple);
 			break;
 		case '4':
 			cout << "Running simple start position...\n\n";			
-			gPtr = GetSimple();
+			gPtr = GetSimple(DEF_GRID_SIZE_TEXTURE);
 			n = GetGenerations();
 			wrapper.Render(gPtr, n, Texture);
 			break;
 		case '2':
 			cout << "Running blinker start position...\n\n";			
-			gPtr = GetBlinker();
+			gPtr = GetBlinker(DEF_GRID_SIZE_SIMPLE);
 			n = GetGenerations();
 			wrapper.Render(gPtr, n, Simple);
 			break;
 		case '5':
 			cout << "Running blinker start position...\n\n";			
-			gPtr = GetBlinker();
+			gPtr = GetBlinker(DEF_GRID_SIZE_TEXTURE);
 			n = GetGenerations();
 			wrapper.Render(gPtr, n, Texture);
 			break;
 		case '3':
 			cout << "Running glider start position...\n\n";			
-			gPtr = GetGlider();
+			gPtr = GetGlider(DEF_GRID_SIZE_SIMPLE);
 			n = GetGenerations();
 			wrapper.Render(gPtr, n, 20, Simple);
 			break;
 		case '6':
 			cout << "Running glider start position...\n\n";			
-			gPtr = GetGlider();
+			gPtr = GetGlider(DEF_GRID_SIZE_TEXTURE);
 			n = GetGenerations();
 			wrapper.Render(gPtr, n, 20, Texture);
 			break;
@@ -87,7 +87,7 @@ void Menu()
 }
 
 //Get glider start pos
-Grid *GetGlider()
+Grid *GetGlider(unsigned short arrSize)
 {
 	/*
 		.*..
@@ -95,7 +95,7 @@ Grid *GetGlider()
 		***.
 		....
 	*/
-	Grid *gPtr = new Grid();
+	Grid *gPtr = new Grid(arrSize);
 
 	gPtr->GetCells()[0][1].SetAlive();
 	gPtr->GetCells()[1][2].SetAlive();
@@ -107,7 +107,7 @@ Grid *GetGlider()
 }
 
 //Get blinker start pos
-Grid *GetBlinker()
+Grid *GetBlinker(unsigned short arrSize)
 {
 	/*
 		.*..
@@ -116,7 +116,7 @@ Grid *GetBlinker()
 		....
 	*/
 
-	Grid *gPtr = new Grid();
+	Grid *gPtr = new Grid(arrSize);
 	gPtr->GetCells()[0][1].SetAlive();
 	gPtr->GetCells()[1][1].SetAlive();
 	gPtr->GetCells()[2][1].SetAlive();
@@ -125,7 +125,7 @@ Grid *GetBlinker()
 }
 
 //Get simple cell start pos
-Grid *GetSimple()
+Grid *GetSimple(unsigned short arrSize)
 {
 	/*
 		.*..
@@ -133,7 +133,7 @@ Grid *GetSimple()
 		***.
 		....
 	*/
-	Grid *gPtr = new Grid();
+	Grid *gPtr = new Grid(arrSize);
 	gPtr->GetCells()[1][4].SetAlive();
 	gPtr->GetCells()[2][3].SetAlive();
 	gPtr->GetCells()[2][4].SetAlive();

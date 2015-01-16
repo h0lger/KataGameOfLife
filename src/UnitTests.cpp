@@ -7,7 +7,7 @@
 
 bool UnitTest_Print()
 {
-	Grid *gPtr = GetSimple();
+	Grid *gPtr = GetSimple(DEF_GRID_SIZE_SIMPLE);
 	GfxWrapper wrapper = GfxWrapper();
 	wrapper.Render(gPtr, 0, Simple);
 
@@ -17,7 +17,7 @@ bool UnitTest_Print()
 
 bool UnitTest_NextGen_Glider()
 {
-	Grid *gPtr = GetGlider();
+	Grid *gPtr = GetGlider(DEF_GRID_SIZE_SIMPLE);
 	
 	//Validate start pos
 	assert(gPtr->GetCells()[0][1].IsAlive() == true);
@@ -98,7 +98,7 @@ bool UnitTest_NextGen_Glider()
 
 bool UnitTest_NextGen_Blinker()
 {
-	Grid *gPtr = GetBlinker();
+	Grid *gPtr = GetBlinker(DEF_GRID_SIZE_SIMPLE);
 
 	//Validate start pos
 	assert(gPtr->GetCells()[0][1].IsAlive() == true);

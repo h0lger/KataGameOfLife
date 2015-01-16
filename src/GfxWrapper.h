@@ -5,8 +5,8 @@
 #include "GfxCell.h"
 
 #define GFX_WRAPPER_H
-#define CELL_WEIGHT 6
-#define CELL_SPACING 3
+#define DEF_SIMPLE_CELL_SIZE 6
+#define DEF_CELL_SPACING 3
 #define DEF_ANIMATION_SPEED_MS 200 //milliseconds
 #define DEF_ANTIALAISING 12
 
@@ -36,10 +36,11 @@ private:
 	ushort _screen_x;
 	ushort _screen_y;
 	GfxType _gfxType;
+	ushort _cellSize;
+	ushort _cellSpacing;
 	static sf::RectangleShape CreateAliveSimpleCell(uint, uint);
 	static sf::RectangleShape CreateDeadSimpleCell(uint, uint);
-	static GfxCell CreateAliveTextureCell(uint, uint);
-	static GfxCell CreateDeadTextureCell(uint, uint);
+	static GfxCell CreateAliveTextureCell(uint, uint);	
 	void Init(Grid *);
 	void RenderGrid(Grid *, sf::RenderWindow *);
 	void InnerRender(Grid *, ushort, ushort);

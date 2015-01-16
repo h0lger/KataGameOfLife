@@ -1,9 +1,9 @@
 #include "Grid.h"
 #include <vector>
 
-Grid::Grid()
+Grid::Grid(unsigned short arrSize)
 {
-	_arrSize = DEFAULT_GRID_SIZE;
+	_arrSize = arrSize;
 	InitGrid();	
 }
 Grid::~Grid(void)

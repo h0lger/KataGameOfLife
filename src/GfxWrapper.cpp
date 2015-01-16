@@ -7,7 +7,7 @@ sf::Color GfxWrapper::DEAD_CELL = sf::Color(30, 30, 30);
 
 sf::RectangleShape GfxWrapper::CreateAliveSimpleCell(uint pos_x, uint pos_Y)
 {
-	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
+	sf::RectangleShape rect(sf::Vector2f(DEF_SIMPLE_CELL_SIZE, DEF_SIMPLE_CELL_SIZE));
   rect.setPosition(pos_x, pos_Y);
   rect.setFillColor(ALIVE_CELL);
 	
@@ -24,27 +24,32 @@ GfxCell GfxWrapper::CreateAliveTextureCell(uint pos_x, uint pos_Y)
 
 sf::RectangleShape GfxWrapper::CreateDeadSimpleCell(uint pos_x, uint pos_Y)
 {
-	sf::RectangleShape rect(sf::Vector2f(CELL_WEIGHT, CELL_WEIGHT));
+	sf::RectangleShape rect(sf::Vector2f(DEF_SIMPLE_CELL_SIZE, DEF_SIMPLE_CELL_SIZE));
   rect.setPosition(pos_x, pos_Y);
   rect.setFillColor(DEAD_CELL);
 	
 	return rect;
 }
 
-GfxCell GfxWrapper::CreateDeadTextureCell(uint pos_x, uint pos_Y)
-{
-	GfxCell gCell = GfxCell();
-	gCell.setPosition(-30, -30); //quickfix
-  //gCell.setPosition(pos_x, pos_Y);  
-	
-	return gCell;	
-}
-
 void GfxWrapper::Init(Grid *gPtr)
 {
+	switch(_gfxType)
+	{
+			case Simple:
+				_cellSize = DEF_SIMPLE_CELL_SIZE;
+				_cellSpacing = DEF_CELL_SPACING;
+				break;
+				
+			case Texture:
+				_cellSize = DEF_TEXTURE_CELL_SIZE * 2;
+				_cellSpacing = 0;
+				break;
+	}
+	
+	
 	//Initialze window size
-	_screen_x = gPtr->ArrSize() * (CELL_WEIGHT + CELL_SPACING);
-	_screen_y = gPtr->ArrSize() * (CELL_WEIGHT + CELL_SPACING);	
+	_screen_x = gPtr->ArrSize() * (_cellSize + _cellSpacing);
+	_screen_y = gPtr->ArrSize() * (_cellSize + _cellSpacing);	
 }
 
 GfxWrapper::GfxWrapper() {}
@@ -72,21 +77,21 @@ void GfxWrapper::RenderGrid(Grid *gPtr, sf::RenderWindow *window)
 				//draw dead or alive cell				
 				window->draw(tmpCellShape);
 			}
-			else
+			else //Texture
 			{
-				if(rCell[c].IsAlive())      				
-					gCell = CreateAliveTextureCell(xOffset, yOffset);      
-				else
-					gCell = CreateDeadTextureCell(xOffset, yOffset);
-				//draw dead or alive cell				
-				window->draw(gCell);
+				if(rCell[c].IsAlive())
+				{
+					gCell = CreateAliveTextureCell(xOffset, yOffset);				
+					//draw only living cells..
+					window->draw(gCell);
+				}				
 			}		
 				
       // increase x offset for every cell
-      xOffset += CELL_WEIGHT + CELL_SPACING;
+      xOffset += _cellSize + _cellSpacing;
     }
     // increase y offset for every row
-    yOffset += CELL_WEIGHT + CELL_SPACING;
+    yOffset += _cellSize + _cellSpacing;
     xOffset = 0;
   }
 }
@@ -111,7 +116,14 @@ void GfxWrapper::InnerRender(Grid *gPtr, ushort n, ushort aniSpeed)
   sf::Clock clock; // starts clock
 	bool run = true;
 	size_t i = 0;
-	Init(gPtr);	
+	Init(gPtr);
+	sf::Vertex rect[] = 
+	{		
+			sf::Vertex(sf::Vector2f(0, 0), sf::Color(7, 74, 126, 255)),
+			sf::Vertex(sf::Vector2f(_screen_x, 0), sf::Color(7, 74, 126, 255)),
+			sf::Vertex(sf::Vector2f(_screen_x, _screen_y), sf::Color(30, 109, 166, 255)),
+			sf::Vertex(sf::Vector2f(0, _screen_y), sf::Color(30, 109, 166, 255))
+	};
 
   sf::RenderWindow window(sf::VideoMode(_screen_x, _screen_y), "KataGameOfLife", sf::Style::Default, settings);	
 
@@ -129,7 +141,8 @@ void GfxWrapper::InnerRender(Grid *gPtr, ushort n, ushort aniSpeed)
     if(i <= n && elapsed.asMilliseconds() > aniSpeed) // refresh
     {
       window.clear(BACKGROUND);
-			
+			if(_gfxType == Texture)
+				window.draw(rect, 4, sf::Quads);
       RenderGrid(gPtr, &window);
       window.display();      
 			i++;
